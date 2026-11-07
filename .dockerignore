@@ -1,0 +1,6 @@
+# Keep build context small: only index.html is needed in the image.
+.git
+.gitignore
+Dockerfile
+.dockerignore
+*.md
