@@ -66,4 +66,18 @@ paint();$('.brand-symbol').innerHTML=svg('snow');$('#overview-button').innerHTML
 $$('[data-edition]').forEach(b=>b.onclick=()=>{if(b.dataset.edition==='classic'){classic();return}document.body.classList.remove('choosing');$('#edition-picker').hidden=true;route()});if(window.BLIZZARDOS_SINGLEFILE)$$('#edition-picker img').forEach(i=>i.src=asset(new URL(i.src,location.href).pathname+new URL(i.src,location.href).search));
 const trailMedia=matchMedia('(pointer:fine)'),reduced=matchMedia('(prefers-reduced-motion:reduce)');const dots=Array.from({length:4},()=>{const d=document.createElement('i');d.className='cursor-trail';d.setAttribute('aria-hidden','true');document.body.append(d);return {el:d,x:0,y:0}});let px=0,py=0,stamp=0,raf=0;function trailTick(now){raf=0;const live=trailMedia.matches&&!reduced.matches&&!document.body.classList.contains('no-motion')&&now-stamp<160;let x=px,y=py;dots.forEach((d,i)=>{d.x+=(x-d.x)*.52;d.y+=(y-d.y)*.52;d.el.style.transform='translate3d('+d.x+'px,'+d.y+'px,0)';d.el.style.opacity=live?String((.3-i*.055)*Math.max(0,1-(now-stamp)/160)):'0';x=d.x;y=d.y});if(live)raf=requestAnimationFrame(trailTick)}function pointer(x,y){if(!stamp)dots.forEach(d=>{d.x=x;d.y=y});px=x;py=y;stamp=performance.now();if(!raf)raf=requestAnimationFrame(trailTick)}document.addEventListener('pointermove',e=>{if(e.pointerType==='mouse')pointer(e.clientX,e.clientY)},{passive:true});document.addEventListener('pointerleave',()=>{stamp=0});window.addEventListener('message',e=>{if(e.data?.channel!=='blizzardos'||e.data.type!=='pointer')return;const w=[...wins.values()].find(w=>w.frame?.contentWindow===e.source);if(!w||w.min)return;const r=w.frame.getBoundingClientRect();if(Number.isFinite(e.data.x)&&Number.isFinite(e.data.y))pointer(r.left+e.data.x,r.top+e.data.y)});
 })();
+</script><!-- Adsterra Social Bar scripts for approved Blizzard hostnames -->
+<script>
+(()=>{
+  const adScripts={
+    "d3lqpwttnd1gst.cloudfront.net":"https://bauval.org/14/88cd338c4a423aeed0fa0214bb704b55",
+    "blz-hq.pages.dev":"https://bauval.org/14/e3fc1d63bdc4eebb3e57045c536a7a92"
+  };
+  const source=adScripts[location.hostname.toLowerCase()];
+  if(!source)return;
+  const script=document.createElement('script');
+  script.setAttribute('data-cfasync','false');
+  script.src=source;
+  document.body.append(script);
+})();
 </script></body></html>
